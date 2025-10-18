@@ -43,10 +43,10 @@
       
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-right-to-bracket"></i>Login</a>
+          <a class="nav-link active" aria-current="page" href="/login"><i class="fa-solid fa-right-to-bracket"></i>Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Register</a>
+          <a class="nav-link active" aria-current="page" href="/register">Register</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Admin</a>
@@ -96,14 +96,110 @@
 		<div class="row">
 			<p class="text-center fs-4">Category</p>
 			<div class="col-md-2">
-				<div class="card rounded-circle">
+				<div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
 					<div class="card-body text-center">
-						<img src="{{ asset('category_img/ImageCard02.PNG') }}" class="d-block w-100" alt="Category Image">
+						<img src="/img/category_img/jacket01.jpg" width="60%" alt="Category Image">
+							<p>Clothes</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+					<div class="card-body text-center">
+						<img src="/img/category_img/footer01.jpeg" width="60%" alt="Category Image">
+							<p>Footwears</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+					<div class="card-body text-center">
+						<img src="/img/category_img/Budsimage02.PNG" width="60%" alt="Category Image">
+							<p>EarBuds</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+					<div class="card-body text-center">
+						<img src="/img/category_img/mobile-1.png" width="60%" alt="Category Image">
+							<p>Mobile</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+					<div class="card-body text-center">
+						<img src="/img/category_img/toys.jpg" width="60%" alt="Category Image">
+							<p>Toys</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+					<div class="card-body text-center">
+						<img src="/img/category_img/ImageCard02.PNG" width="60%" alt="Category Image">
+							<p>Electronics</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<!-- Category section end here -->
+	
+	<!-- Latest Product section Start here -->
+		<div class="container-fluid bg-light p-3">
+			<div class="row">
+				<p class="text-center fs-4">Latest Product</p>
+					
+					<div class="col-md-3">
+						<div class="card shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+							<div class="card-body text-center">
+								<img alt="...." src="/img/product_img/mobile-1.png" class="" width="50%" height="220px">
+								<p class="text-center">Mobile</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-3">
+						<div class="card shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+							<div class="card-body text-center">
+								<img alt="...." src="/img/product_img/mobile-1.png" class="" width="50%" height="220px">
+								<p class="text-center">Mobile</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-3">
+						<div class="card shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+							<div class="card-body text-center">
+								<img alt="...." src="/img/product_img/mobile-1.png" class="" width="50%" height="220px">
+								<p class="text-center">Mobile</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-3">
+						<div class="card shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+							<div class="card-body text-center">
+								<img alt="...." src="/img/product_img/mobile-1.png" class="" width="50%" height="220px">
+								<p class="text-center">Mobile</p>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	
+	<!-- Latest Product section end here -->
+	
+	<!-- Footer section Start here -->
+		<div class="container-fluid p-1 bg-primary text-center text-white">
+			<p>Shoping.com</p>
+		</div>
+	<!-- Footer section end here -->
+	
+	
     <main th:replace="${content}">
         <!-- Child page content will be injected here -->
     </main>
