@@ -1,24 +1,30 @@
 package com.example.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
 	
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String index() {
 		return "index";
 	}
+
 	
-	@RequestMapping("/login")
+	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
 	
-	@RequestMapping("/register")
+	@GetMapping("/register")
 	public String register() {
 		return "register";
 	}
 
+	@GetMapping("/product")
+	public String product() {
+		return "product";
+	}
 }
