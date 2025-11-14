@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.model.Category;
+import com.example.model.Product;
 import com.example.service.CategoryService;
+import com.example.service.ProductService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -32,6 +35,8 @@ public class AdminController {
 	@Autowired
 	public CategoryService categoryService;
 	
+	@Autowired
+	public ProductService productService;
 	
 	@GetMapping("/")
 	public String index(){
@@ -39,9 +44,13 @@ public class AdminController {
 	}
 	
 	@GetMapping("/loadAddProduct")
-	public String loadAddProduct(){
+	public String loadAddProduct(Model m){
+		List<Category> categories = categoryService.getAllCategory();
+		m.addAttribute("categories",categories);
 		return "admin/add_product";
 	}
+	
+//	=========================  Category CRUD Operation ===========================================
 	
 	@GetMapping("/AddCategory")
 	public String AddCategory(Model m){
@@ -144,4 +153,32 @@ public class AdminController {
 		return "redirect:/admin/loadEditCategory/" + category.getId();
 	}
 	
+//	=========================== Add Product - CRUD Operation   ==============================
+	@PostMapping("/saveProduct")
+	public String saveProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile image
+			,HttpSession session) throws IOException {
+		
+	 String imageName = image.isEmpty()? "default.jpg":image.getOriginalFilename();
+		
+	 	product.setImage(imageName);
+		Product saveProduct = productService.saveProduct(product);
+		if(!ObjectUtils.isEmpty(saveProduct)) {
+			
+			 File saveFile = new ClassPathResource("static/img").getFile();
+		        Path path = Paths.get(saveFile.getAbsolutePath() + File.separator+ "product_img"+ File.separator + image.getOriginalFilename());
+		        Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+		    
+			
+			session.setAttribute("successMsg", "Product save successfully");
+		}else {
+			session.setAttribute("errorMsg", "Product Not save ");
+		}
+		return "redirect:/admin/loadAddProduct";
+	}
+	
+	@GetMapping("/loadViewProduct")
+	public String loadViewProduct(Model m){
+		m.addAttribute("products",productService.getAllProduct());
+		return "admin/product";
+	}
 }
