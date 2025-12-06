@@ -51,13 +51,21 @@ public class AdminController {
 	}
 	
 //	=========================  Category CRUD Operation ===========================================
+
+	//GET OPERATION - Getting details of category
+		@GetMapping("/AddCategory")
+		public String AddCategory(Model m){
+			m.addAttribute("categorys",categoryService.getAllCategory());
+			return "admin/category";
+		}
+	//GET OPERATION - Getting details of category by id	
+		@GetMapping("/loadEditCategory/{id}")
+		public String LoadEditCategory(@PathVariable int id, Model m) {
+			m.addAttribute("category",categoryService.getCategoryById(id));
+			return "/admin/edit_category";
+		}
 	
-	@GetMapping("/AddCategory")
-	public String AddCategory(Model m){
-		m.addAttribute("categorys",categoryService.getAllCategory());
-		return "admin/category";
-	}
-	
+	//	POST OPERATION - Adding new details of category
 	@PostMapping("/saveCategory")
 	public String saveCategory(@ModelAttribute Category category, @RequestParam("file") MultipartFile file ,
 			HttpSession session) throws IOException {
@@ -93,8 +101,7 @@ public class AdminController {
 	    return "redirect:/admin/AddCategory";
 	}
 	
-	
-	
+//DELETE OPERATION - Deleting details from category by id 
 	@GetMapping("/deleteCategory/{id}")
 	public String deleteCtegory(@PathVariable int id, HttpSession session) {
 		
@@ -107,14 +114,7 @@ public class AdminController {
 		}
 		return  "redirect:/admin/AddCategory";
 	}
-	
-	
-	@GetMapping("/loadEditCategory/{id}")
-	public String LoadEditCategory(@PathVariable int id, Model m) {
-		m.addAttribute("category",categoryService.getCategoryById(id));
-		return "/admin/edit_category";
-	}
-	
+//PUT OPERATION -  Editing category details 
 	@PostMapping("/updateCategory")
 	public String updateCategory(@ModelAttribute Category category,@RequestParam("file") MultipartFile file,
 			HttpSession session) throws IOException{
@@ -161,6 +161,8 @@ public class AdminController {
 	 String imageName = image.isEmpty()? "default.jpg":image.getOriginalFilename();
 		
 	 	product.setImage(imageName);
+	 	product.setDiscount(0);
+	 	product.setDiscountPrice(product.getPrice());
 		Product saveProduct = productService.saveProduct(product);
 		if(!ObjectUtils.isEmpty(saveProduct)) {
 			
@@ -176,9 +178,48 @@ public class AdminController {
 		return "redirect:/admin/loadAddProduct";
 	}
 	
+//	========================
 	@GetMapping("/loadViewProduct")
 	public String loadViewProduct(Model m){
 		m.addAttribute("products",productService.getAllProduct());
 		return "admin/product";
 	}
+//	========================
+	@GetMapping("/deleteProduct/{id}")
+	public String deleteProduct(@PathVariable int id, HttpSession session){
+	Boolean deleteProduct =	productService.deleteProduct(id);
+		if(deleteProduct) {
+			session.setAttribute("successMsg", "Product deleted successfully");
+		}else {
+			session.setAttribute("errorMsg", "Product not deleted");
+		}
+		return "redirect:/admin/loadViewProduct";
+	}
+//	========================
+	@GetMapping("/editProduct/{id}")
+	public String editProduct(@PathVariable int id,Model m){
+		m.addAttribute("product",productService.getProductById(id));
+		m.addAttribute("categories",categoryService.getAllCategory());
+		return "admin/edit_product";
+	}
+	
+//	========================
+	@PostMapping("/updateProduct")
+	public String updateProduct(@ModelAttribute Product product,@RequestParam("file")MultipartFile image,
+			HttpSession session, Model m) throws IOException {
+		
+		if(product.getDiscount()<0 || product.getDiscount()>100) {
+			 session.setAttribute("errorMsg", "Invalid Discount ");
+		}
+		
+	 Product updateProdct =	productService.updateProduct(product, image);
+	 
+	 if(!ObjectUtils.isEmpty(updateProdct)) {
+		 session.setAttribute("successMsg", "Product update successfully");
+	 }else {
+		 session.setAttribute("errorMsg", "Something went wrong");
+	 }
+		return "redirect:/admin/editProduct/"+product.getId();
+	}
+	
 }

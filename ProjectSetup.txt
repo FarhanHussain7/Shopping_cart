@@ -1,0 +1,14 @@
+
+
+
+
+
+For Security 
+	1- Add Spring Security Dependency
+	2- Add role in User model
+	3- Create custom user and implement userDetails
+			set role,email,password
+	4- Create UserDetailsServiceImpl and implement UserDetailsService
+	5- Create SecurityConfig
+	6- Create AuthSuccessHandler
+	
