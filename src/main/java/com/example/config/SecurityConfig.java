@@ -1,7 +1,9 @@
 package com.example.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -14,6 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+//	@Autowired
+//	public AuthSuccessHandlerImpl AuthSuccessHandler;
+	
+	@Autowired
+	@Lazy
+	public AuthFailureHandlerImpl authenticationFailureHandler;
+	
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -56,26 +65,23 @@ public class SecurityConfig {
             .formLogin(form -> form
                     .loginPage("/signin")
                     .loginProcessingUrl("/login")
+//                    .successHandler(AuthSuccessHandler))   If Use that class then comment other successHandler code 
                     .successHandler((request, response, authentication) -> {
-                    	 System.out.println(",,,,,,,,,,,,,,,,,,,,");
                         var authorities = authentication.getAuthorities();
                         String redirectUrl = "/";
-                        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                         if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
                             redirectUrl = "/user/";
-                            System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
                         } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
                             redirectUrl = "/admin/";
-                            System.out.println("ccccccccccccccccccccccccccc");
                         }
                         response.sendRedirect(redirectUrl);
-                        System.out.println("dddddddddddddddddddddddddd");
                     })
+                    .failureHandler(authenticationFailureHandler)
                     .permitAll()
                 )
                 .logout(logout -> logout.permitAll());
 
-        System.out.println("-----------------------------------------");
+//        System.out.println("-----------------------------------------");
 
         return http.build();
     }

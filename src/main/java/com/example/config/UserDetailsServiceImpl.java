@@ -29,6 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			    .withUsername(user.getEmail())
 			    .password(user.getPassword())
 			    .authorities(new SimpleGrantedAuthority(user.getRole())) // "ROLE_ADMIN"
+			    .disabled(!Boolean.TRUE.equals(user.getEnabled())) // ✅ respect enabled flag
 			    .build();
 	}
 }

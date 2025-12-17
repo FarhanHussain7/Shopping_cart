@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -119,6 +121,45 @@ public class UserDtls {
 	private String profileImage;
 	
 	private String role;
+	
+	private Boolean enabled;
+
+	public Boolean getEnabled()
+	{
+		return enabled; 
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled; 
+	}	
+	private Boolean accountNonLocked;
+	
+	private Integer failedAttempt;
+	
+	public Boolean getAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(Boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+	public Integer getFailedAttempt() {
+		return failedAttempt;
+	}
+
+	public void setFailedAttempt(Integer failedAttempt) {
+		this.failedAttempt = failedAttempt;
+	}
+
+	private java.util.Date lockTime;
+	
+	public java.util.Date getLockTime() {
+		return lockTime;
+	}
+
+	public void setLockTime(java.util.Date lockTime) {
+		this.lockTime = lockTime;
+	}
 
 	public String getRole() {
 		return role;

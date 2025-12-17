@@ -12,3 +12,13 @@ For Security
 	5- Create SecurityConfig
 	6- Create AuthSuccessHandler
 	
+	
+For Wrong Password
+	1- increaseFailedAttempt(user;
+	2- userService.lock(user);
+	3- userService.unloackAccountTimeExpired(user);
+	4- public void resetAttempt(int userId);
+	variables
+		accountNonLocked
+		failedAttempt
+		lockTime
